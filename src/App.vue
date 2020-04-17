@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-      <nav class="navbar navbar-light bg-primary">
+      <nav class="navbar navbar-dark bg-primary">
          <a class="navbar-brand"><i class="fab fa-accessible-icon"></i>МЕГА галерея</a>
                 <ul class="nav justify-content-end">
                     <li class="nav-item">
@@ -16,9 +16,9 @@
                     </li>
                 </ul>
 
-          <form>
-              <input type="search" placeholder="Search" >
-              <button type="submit">Search</button>
+          <form class="form-inline">
+              <input class="form-control mr-auto" type="search" placeholder="Search" aria-label="Search">
+              <button type="button" class="btn btn-outline-success">Search</button>
           </form>
       </nav>
       <nav aria-label="breadcrumb">
@@ -32,12 +32,10 @@
           <h2>Альбомы</h2>
       </div>
 
-      <div class="w-100"></div>
-
 <!--      Первый ряд-->
       <div class="row">
           <div class="col-4">
-              <div class="card" style="width: 18rem;">
+              <div class="card mb-4" style="width: 18rem;">
 <!--                  <img src="..." class="card-img-top" alt="...">-->
                   <div class="card-body shadow mb-2 bg-white rounded">
                       <h5 class="card-title">Название карточки</h5>
@@ -46,7 +44,7 @@
               </div>
           </div>
           <div class="col-4">
-              <div class="card" style="width: 18rem;">
+              <div class="card mb-4" style="width: 18rem;">
 <!--                                    <img src="..." class="card-img-top" alt="...">-->
                   <div class="card-body shadow mb-2 bg-white rounded">
                       <h5 class="card-title">Название карточки</h5>
@@ -55,7 +53,7 @@
               </div>
           </div>
           <div class="col-4">
-              <div class="card" style="width: 18rem;">
+              <div class="card mb-4" style="width: 18rem;">
 <!--                                    <img src="..." class="card-img-top" alt="...">-->
                   <div class="card-body shadow mb-2 bg-white rounded">
                       <h5 class="card-title">Название карточки</h5>
@@ -67,7 +65,7 @@
 <!--          Второй ряд-->
 
           <div class="col-4">
-              <div class="card" style="width: 18rem;">
+              <div class="card mb-4" style="width: 18rem;">
                   <!--                  <img src="..." class="card-img-top" alt="...">-->
                   <div class="card-body shadow mb-2 bg-white rounded">
                       <h5 class="card-title">Название карточки</h5>
@@ -76,7 +74,7 @@
               </div>
           </div>
           <div class="col-4">
-              <div class="card" style="width: 18rem;">
+              <div class="card mb-4" style="width: 18rem;">
                   <!--                                    <img src="..." class="card-img-top" alt="...">-->
                   <div class="card-body shadow mb-2 bg-white rounded">
                       <h5 class="card-title">Название карточки</h5>
@@ -85,7 +83,7 @@
               </div>
           </div>
           <div class="col-4">
-              <div class="card" style="width: 18rem;">
+              <div class="card mb-4" style="width: 18rem;">
                   <!--                                    <img src="..." class="card-img-top" alt="...">-->
                   <div class="card-body shadow mb-2 bg-white rounded">
                       <h5 class="card-title">Название карточки</h5>
@@ -97,7 +95,7 @@
 <!--          Третий ряд-->
 
           <div class="col-4">
-              <div class="card" style="width: 18rem;">
+              <div class="card mb-4" style="width: 18rem;">
                   <!--                  <img src="..." class="card-img-top" alt="...">-->
                   <div class="card-body shadow mb-2 bg-white rounded">
                       <h5 class="card-title">Название карточки</h5>
@@ -106,7 +104,7 @@
               </div>
           </div>
           <div class="col-4">
-              <div class="card" style="width: 18rem;">
+              <div class="card mb-4" style="width: 18rem;">
                   <!--                                    <img src="..." class="card-img-top" alt="...">-->
                   <div class="card-body shadow mb-2 bg-white rounded">
                       <h5 class="card-title">Название карточки</h5>
@@ -115,7 +113,7 @@
               </div>
           </div>
           <div class="col-4">
-              <div class="card" style="width: 18rem;">
+              <div class="card mb-4" style="width: 18rem;">
 <!--                                                      <img src="" class="card-img-top" alt="...">-->
                   <div class="card-body shadow mb-2 bg-white rounded">
                       <h5 class="card-title">Название карточки</h5>
@@ -123,24 +121,27 @@
                   </div>
               </div>
           </div>
+      </div>
+
     <div class="row justify-content-center">
-      <div class="col-auto">
-          <div class="btn-toolbar row justify-content-center" role="toolbar" aria-label="Toolbar with button groups">
-              <div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-left"></i></button>
-                  <button type="button" class="btn btn-secondary">1</button>
-                  <button type="button" class="btn btn-secondary">2</button>
-                  <button type="button" class="btn btn-secondary">3</button>
-                  <button type="button" class="btn btn-secondary">4</button>
-                  <button type="button" class="btn btn-secondary">5</button>
-                  <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-right"></i></button>
-              </div>
+      <div class="col-4 ml-4 ">
+          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+
+                      <div class="btn-group" role="group" aria-label="First group">
+                          <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-left"></i></button>
+                          <button type="button" class="btn btn-secondary">1</button>
+                          <button type="button" class="btn btn-secondary">2</button>
+                          <button type="button" class="btn btn-secondary">3</button>
+                          <button type="button" class="btn btn-secondary">4</button>
+                          <button type="button" class="btn btn-secondary">5</button>
+                          <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-right"></i></button>
+                      </div>
+
           </div>
       </div>
     </div>
-      </div>
- {{ array }}
-  </div>
+</div>
+<!--        {{ array }}-->
 </template>
 
 <script>
@@ -163,4 +164,5 @@ export default {
 </script>
 
 <style>
+    
 </style>
