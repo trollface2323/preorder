@@ -65,8 +65,8 @@
           <h2>Фото</h2>
           <div class="row">
               <div class="col-6" v-for="item in photos" :key="item.link">
-                  <div class="card mb-4" style="width: 18rem;">
-                      <img src="//via.placeholder.com/600/56a8c2" class="card-img-top bg-cover" alt="Description" width="500px">
+                  <div class="card mb-4" style="width: 500px">
+                      <img :src=item.url class="card-img-top bg-cover" alt="Description">
                       <div class="card-body shadow mb-2 bg-white rounded">
 <!--                          <h5 class="card-title"></h5>-->
                           <p class="card-text">{{item.title}}</p>
@@ -77,37 +77,45 @@
           </div>
       </div>
 
+<!--      Главная-->
+
       <div class="container" v-if="page == 'Main'">
           <p> Типа главная страница</p>
       </div>
+
+<!--      Новости-->
 
       <div class="container" v-if="page == 'News'">
           <p> Типа Новости</p>
       </div>
 
+<!--      Авторы-->
+
       <div class="container" v-if="page == 'Authors'">
           <p> Типа Авторы </p>
       </div>
 
+<!--      Ряд кнопок -->
       <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-4 ml-4 ">
-              <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="row justify-content-center">
+              <div class="col-4 ml-4 ">
+                  <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 
-                          <div class="btn-group" role="group" aria-label="First group">
-                              <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-left"></i></button>
-                              <button type="button" class="btn btn-secondary">1</button>
-                              <button type="button" class="btn btn-secondary">2</button>
-                              <button type="button" class="btn btn-secondary">3</button>
-                              <button type="button" class="btn btn-secondary">4</button>
-                              <button type="button" class="btn btn-secondary">5</button>
-                              <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-right"></i></button>
-                          </div>
+                      <div class="btn-group" role="group" aria-label="First group">
+                          <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-left"></i></button>
+                          <button type="button" class="btn btn-secondary" @click="update(1)">1</button>
+                          <button type="button" class="btn btn-secondary" @click="update(2)">2</button>
+                          <button type="button" class="btn btn-secondary">3</button>
+                          <button type="button" class="btn btn-secondary">4</button>
+                          <button type="button" class="btn btn-secondary">5</button>
+                          <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-right"></i></button>
+                      </div>
 
+                  </div>
               </div>
           </div>
-        </div>
       </div>
+
 
   </div>
 
@@ -122,45 +130,54 @@ export default {
     data() {
       return {
           albums: [
-              {
-                  id:0,
-                  title: '',
-              },
           ],
-          photos:[
-              {
-                  id:1,
-                  title:"ppppp",
 
-              }
+          photos:[
           ],
+
           page:'Albums',
+          page_number:1,
+          count_album:9,
+          count_photo:4,
+          my_json: [],
       }
     },
-    mounted() {
-        fetch('https://jsonplaceholder.typicode.com/albums')
-            .then(response => response.json())
-            .then(json => {
-                console.log(json);
-                json.forEach((v) => {
-                    this.albums.push({id: v.id, title: v.title});
-                })
-            })
-        // fetch('https://jsonplaceholder.typicode.com/photos')
-        //     .then(response => response.json())
-        //     .then(json => {
-        //         json.forEach((v) => {
-        //                 this.photos.push({id: v.id, title: v.title})
-        //         })
-        //     })
-        // for (let i = 0; i < 9; i++)
-        // {
-        //     this.albums.push({id:i, title:i});
-        // }
-    },
-    methods(){
+    methods: {
+        update(page_number) {
+            this.page_number = page_number;
+            for (let i = 0; i < this.count_album; i++) {
+                    this.albums[i].id = [this.count_album * (this.page_number - 1) + i].id;
+                    this.albums[i].title = this.my_json[this.count_album * (this.page_number - 1) + i].title;
 
-    }
+
+            }
+        },
+
+
+    },
+        mounted() {
+            // подгружаю альбомы
+
+            fetch('https://jsonplaceholder.typicode.com/albums')
+                .then(response => response.json())
+                .then(json => {
+                    for (let i = 0; i < this.count_album; i++) {
+                        this.albums.push({id: json[i].id, title: json[i].title, url: json[i].url, album_id: json[i].albumId});
+                    }
+
+                    this.my_json = json;
+                });
+
+
+            // подгружаю фото
+            fetch('https://jsonplaceholder.typicode.com/albums/1/photos')
+                .then(response => response.json())
+                .then(json => {
+                    for (let i = 0; i < this.count_photo; i++) {
+                        this.photos.push({id: json[i].id, title: json[i].title, url: json[i].url})
+                    }
+                })
+        }
 }
 </script>
 
