@@ -47,7 +47,7 @@
           <div class="row">
               <div class="col-4" v-for="item in albums" :key="item.link">
                   <div class="card mb-4" style="width: 18rem;">
-                      <a @click="page = 'Photo'"><img src="//via.placeholder.com/600/56a8c2" class="card-img-top bg-cover" alt="Description" height="150px"></a>
+                      <a @click="create_photo(item.id)"><img src="//via.placeholder.com/600/56a8c2" class="card-img-top bg-cover" alt="Description" height="150px"></a>
                       <div class="card-body shadow mb-2 bg-white rounded">
                           <h5 class="card-title"></h5>
                           <p class="card-text">{{item.title}}</p>
@@ -64,7 +64,7 @@
       <div class="container" v-if="page == 'Photo'">
           <h2>Фото</h2>
           <div class="row">
-              <div class="col-6" v-for="item in photos" :key="item.link">
+              <div class="col-6" v-for="item in json_photos" :key="item.link">
                   <div class="card mb-4" style="width: 500px">
                       <img :src=item.url class="card-img-top bg-cover" alt="Description">
                       <div class="card-body shadow mb-2 bg-white rounded">
@@ -95,19 +95,41 @@
           <p> Типа Авторы </p>
       </div>
 
-<!--      Ряд кнопок -->
-      <div class="container">
+<!--      Кнопоки для альбомов -->
+      <div class="container" v-if="page == 'Albums'">
           <div class="row justify-content-center">
               <div class="col-4 ml-4 ">
                   <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 
                       <div class="btn-group" role="group" aria-label="First group">
                           <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-left"></i></button>
-                          <button type="button" class="btn btn-secondary" @click="update(1)">1</button>
-                          <button type="button" class="btn btn-secondary" @click="update(2)">2</button>
-                          <button type="button" class="btn btn-secondary">3</button>
-                          <button type="button" class="btn btn-secondary">4</button>
-                          <button type="button" class="btn btn-secondary">5</button>
+                          <button type="button" class="btn btn-secondary" @click="update_albums(1)">1</button>
+                          <button type="button" class="btn btn-secondary" @click="update_albums(2)">2</button>
+                          <button type="button" class="btn btn-secondary" @click="update_albums(3)">3</button>
+                          <button type="button" class="btn btn-secondary" @click="update_albums(4)">4</button>
+                          <button type="button" class="btn btn-secondary" @click="update_albums(5)">5</button>
+                          <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-right"></i></button>
+                      </div>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+
+<!--      Кнопки для фото -->
+
+      <div class="container" v-if=" page == 'Photo'">
+          <div class="row justify-content-center">
+              <div class="col-4 ml-4 ">
+                  <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+
+                      <div class="btn-group" role="group" aria-label="First group">
+                          <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-left"></i></button>
+                          <button type="button" class="btn btn-secondary" @click="update_photos(1)">1</button>
+                          <button type="button" class="btn btn-secondary" @click="update_photos(2)">2</button>
+                          <button type="button" class="btn btn-secondary" @click="update_photos(3)">3</button>
+                          <button type="button" class="btn btn-secondary" @click="update_photos(4)">4</button>
+                          <button type="button" class="btn btn-secondary" @click="update_photos(5)">5</button>
                           <button type="button" class="btn btn-secondary"><i class="fas fa-arrow-right"></i></button>
                       </div>
 
@@ -129,31 +151,48 @@ export default {
   },
     data() {
       return {
-          albums: [
-          ],
-
-          photos:[
-          ],
 
           page:'Albums',
-          page_number:1,
-          count_album:9,
-          count_photo:4,
-          my_json: [],
+          page_number: 1,
+          count_album: 9,
+          count_photo: 4,
+          json_albums: [],
+          json_photos: [],
+          albums: [],
+          photos: [],
+          stop: 0,
       }
     },
+
     methods: {
-        update(page_number) {
+        update_photos(page_number) {
             this.page_number = page_number;
-            for (let i = 0; i < this.count_album; i++) {
-                    this.albums[i].id = [this.count_album * (this.page_number - 1) + i].id;
-                    this.albums[i].title = this.my_json[this.count_album * (this.page_number - 1) + i].title;
-
-
+            for (let i = 0; i < this.count_photo; i++) {
+                    this.json_photos[i].id = [this.count_photo * (this.page_number - 1) + i].id;
+                    this.json_photos[i].title = this.json_photos[this.count_album * (this.page_number - 1) + i].title;
             }
         },
 
-
+        update_albums(page_number) {
+            this.page_number = page_number;
+            for (let i = 0; i < this.count_album; i++) {
+                    this.albums[i].id = this.json_albums[this.count_album * (this.page_number - 1) + i].id;
+                    this.albums[i].title = this.json_albums[this.count_album * (this.page_number - 1) + i].title;
+            }
+        },
+        create_photo(album_id){
+            this.page = 'Photo';
+            this.stop = 0;
+            for (let i = 0; i < this.json_photos.length; i++){
+                if (this.json_photos[i].albumId == album_id){
+                    this.photos[i] = this.json_photos[i]
+                    this.stop ++;
+                }
+                if (this.stop == this.count_photo){
+                    break;
+                }
+            }
+        },
     },
         mounted() {
             // подгружаю альбомы
@@ -161,11 +200,14 @@ export default {
             fetch('https://jsonplaceholder.typicode.com/albums')
                 .then(response => response.json())
                 .then(json => {
-                    for (let i = 0; i < this.count_album; i++) {
-                        this.albums.push({id: json[i].id, title: json[i].title, url: json[i].url, album_id: json[i].albumId});
+                    for (let i = 0; i < this.count_album; i++){
+                        this.albums.push({
+                            id: json[i].id,
+                            title: json[i].title,
+                        })
                     }
 
-                    this.my_json = json;
+                    this.json_albums = json;
                 });
 
 
@@ -173,9 +215,11 @@ export default {
             fetch('https://jsonplaceholder.typicode.com/albums/1/photos')
                 .then(response => response.json())
                 .then(json => {
-                    for (let i = 0; i < this.count_photo; i++) {
-                        this.photos.push({id: json[i].id, title: json[i].title, url: json[i].url})
-                    }
+
+
+                    this.json_photos = json;
+                    this.photos = this.json_photos;
+
                 })
         }
 }
@@ -198,4 +242,4 @@ export default {
         background-color: #ecf1f5;
         position: relative;
     }
-</style>
+</style>-
