@@ -64,7 +64,7 @@
       <div class="container" v-if="page == 'Photo'">
           <h2>Фото</h2>
           <div class="row">
-              <div class="col-6" v-for="item in json_photos" :key="item.link">
+              <div class="col-6" v-for="item in photos" :key="item.link">
                   <div class="card mb-4" style="width: 500px">
                       <img :src=item.url class="card-img-top bg-cover" alt="Description">
                       <div class="card-body shadow mb-2 bg-white rounded">
@@ -168,8 +168,8 @@ export default {
         update_photos(page_number) {
             this.page_number = page_number;
             for (let i = 0; i < this.count_photo; i++) {
-                    this.json_photos[i].id = [this.count_photo * (this.page_number - 1) + i].id;
-                    this.json_photos[i].title = this.json_photos[this.count_album * (this.page_number - 1) + i].title;
+                    this.photos[i].id = this.photos[this.count_photo * (this.page_number - 1) + i].id;
+                    this.photos[i].title = this.photos[this.count_photo * (this.page_number - 1) + i].title;
             }
         },
 
@@ -182,16 +182,20 @@ export default {
         },
         create_photo(album_id){
             this.page = 'Photo';
-            this.stop = 0;
-            for (let i = 0; i < this.json_photos.length; i++){
-                if (this.json_photos[i].albumId == album_id){
-                    this.photos[i] = this.json_photos[i]
+            this.photos.length = 0;
+            for (let i = 0; i < 50; i++){
+                // if (this.json_photos[i].albumId === album_id){
+                    this.photos.push();
+                    this.photos[i] = this.json_photos[i+50*(album_id-1)];
                     this.stop ++;
-                }
+
                 if (this.stop == this.count_photo){
                     break;
                 }
             }
+
+            this.stop = 0;
+
         },
     },
         mounted() {
@@ -212,14 +216,18 @@ export default {
 
 
             // подгружаю фото
-            fetch('https://jsonplaceholder.typicode.com/albums/1/photos')
+            fetch('https://jsonplaceholder.typicode.com/photos')
                 .then(response => response.json())
                 .then(json => {
-
+                    for (let i = 0; i < this.count_photo; i++){
+                        this.photos.push({
+                            id: json[i].id,
+                            url: json[i].url,
+                            title: json[i].title,
+                        })
+                    }
 
                     this.json_photos = json;
-                    this.photos = this.json_photos;
-
                 })
         }
 }
