@@ -160,46 +160,45 @@ export default {
           json_photos: [],
           albums: [],
           photos: [],
-          stop: 0,
           photo_start_id:0,
+          page_number_photo:1,
       }
     },
 
     methods: {
-        update_photos(page_number) {
-            this.page_number = page_number;
+        update_photos(page_number_photo) {
+
+            this.page_number_photo = page_number_photo;
             for (let i = 0; i < this.count_photo; i++) {
-                    this.photos[i].id = this.json_photos[this.photo_start_id + this.count_photo * (this.page_number - 1) + i].id;
-                    this.photos[i].title = this.json_photos[this.photo_start_id + this.count_photo * (this.page_number - 1) + i].title;
-                    this.photos[i].url = this.json_photos[this.photo_start_id + this.count_photo * (this.page_number - 1) + i].url;
+                    // this.photos[i] = this.json_photos[this.photo_start_id + this.count_photo * (this.page_number_photo - 1) + i];
+                    this.photos[i].id = this.json_photos[this.photo_start_id + this.count_photo * (this.page_number_photo - 1) + i].id;
+                    this.photos[i].title = this.json_photos[this.photo_start_id + this.count_photo * (this.page_number_photo - 1) + i].title;
+                    this.photos[i].url = this.json_photos[this.photo_start_id + this.count_photo * (this.page_number_photo - 1) + i].url;
+                    console.log(this.page_number_photo)
             }
-            // this.albums[i].id = this.json_albums[this.count_album * (this.page_number - 1) + i].id;
-            // this.albums[i].title = this.json_albums[this.count_album * (this.page_number - 1) + i].title;
         },
 
-        create_photo(album_id){
-            this.page = 'Photo';
-            this.photo_start_id = 50 * (album_id -1);
-            this.photos.length = 0;
-            for (let i = 0; i < 50; i++){
-                // if (this.json_photos[i].albumId === album_id){
-                    this.photos.push();
-                    this.photos[i] = this.json_photos[i+50*(album_id-1)];
-                    this.stop ++;
-
-                if (this.stop == this.count_photo){
-                    break;
-                }
-            }
-
-            this.stop = 0;
-
-        },
         update_albums(page_number) {
             this.page_number = page_number;
             for (let i = 0; i < this.count_album; i++) {
                 this.albums[i].id = this.json_albums[this.count_album * (this.page_number - 1) + i].id;
                 this.albums[i].title = this.json_albums[this.count_album * (this.page_number - 1) + i].title;
+            }
+        },
+        create_photo(album_id){
+            this.page = 'Photo';
+            this.photo_start_id = 50 * (album_id -1);
+            this.photos = [];
+            for (let i = 0; i < 4; i++){
+                    this.photos.push({
+                        id:0,
+                        title:'',
+                        url:''
+                    });
+
+                    this.photos[i].id = this.json_photos[i+50*(album_id-1)].id;
+                    this.photos[i].title = this.json_photos[i+50*(album_id-1)].title;
+                    this.photos[i].url = this.json_photos[i+50*(album_id-1)].url;
             }
         },
     },
