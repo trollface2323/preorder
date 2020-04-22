@@ -118,6 +118,10 @@
 
 <!--      Кнопки для фото -->
 
+<!--      <Buttons v-if="page == 'Photo'" v-bind:page_number="page_number_photo">-->
+
+<!--      </Buttons>-->
+
       <div class="container" v-if=" page == 'Photo'">
           <div class="row justify-content-center">
               <div class="col-4 ml-4 ">
@@ -144,10 +148,12 @@
 </template>
 
 <script>
+// import Buttons from "./components/Buttons.vue"
 
 export default {
   name: 'App',
   components: {
+      // Buttons
   },
     data() {
       return {
@@ -161,28 +167,27 @@ export default {
           albums: [],
           photos: [],
           photo_start_id:0,
-          page_number_photo:1,
+          // page_number_photo:1,
       }
     },
 
     methods: {
         update_photos(page_number_photo) {
 
-            this.page_number_photo = page_number_photo;
+            // this.page_number_photo = page_number_photo;
             for (let i = 0; i < this.count_photo; i++) {
-                    // this.photos[i] = this.json_photos[this.photo_start_id + this.count_photo * (this.page_number_photo - 1) + i];
-                    this.photos[i].id = this.json_photos[this.photo_start_id + this.count_photo * (this.page_number_photo - 1) + i].id;
-                    this.photos[i].title = this.json_photos[this.photo_start_id + this.count_photo * (this.page_number_photo - 1) + i].title;
-                    this.photos[i].url = this.json_photos[this.photo_start_id + this.count_photo * (this.page_number_photo - 1) + i].url;
+                    this.photos[i].id = this.json_photos[this.photo_start_id + this.count_photo * (page_number_photo - 1) + i].id;
+                    this.photos[i].title = this.json_photos[this.photo_start_id + this.count_photo * (page_number_photo - 1) + i].title;
+                    this.photos[i].url = this.json_photos[this.photo_start_id + this.count_photo * (page_number_photo - 1) + i].url;
                     console.log(this.page_number_photo)
             }
         },
 
         update_albums(page_number) {
-            this.page_number = page_number;
+            // this.page_number = page_number;
             for (let i = 0; i < this.count_album; i++) {
-                this.albums[i].id = this.json_albums[this.count_album * (this.page_number - 1) + i].id;
-                this.albums[i].title = this.json_albums[this.count_album * (this.page_number - 1) + i].title;
+                this.albums[i].id = this.json_albums[this.count_album * (page_number - 1) + i].id;
+                this.albums[i].title = this.json_albums[this.count_album * (page_number - 1) + i].title;
             }
         },
         create_photo(album_id){
