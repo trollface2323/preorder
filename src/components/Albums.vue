@@ -18,8 +18,9 @@
 
                       </div>
                   </div>
-        <Buttons v-bind:count="count_album"
-                 v-bind:array="albums">
+        <Buttons :count="count_album"
+                 :array="albums"
+                 :json_array="json_albums" @update="update">
 
         </Buttons>
 
@@ -50,13 +51,12 @@ export default {
     },
 
     methods:{
-
-        update_albums(page_number) {
-            for (let i = 0; i < this.count_album; i++) {
-                this.albums[i].id = this.json_albums[this.count_album * (page_number - 1) + i].id;
-                this.albums[i].title = this.json_albums[this.count_album * (page_number - 1) + i].title;
-            }
+        update(new_album){
+            for (let i = 0; i < this.count_album; i++){
+            this.albums[i] = new_album
+                }
         },
+
 
         create_photo(album_id){
             this.page = 'Photos';

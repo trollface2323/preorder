@@ -11,8 +11,10 @@
                 </div>
             </div>
         </div>
-        <Buttons v-bind:count="count_photo"
-                 v-bind:array="photos">
+        <Buttons :count="count_photo"
+                 :array="photos"
+                 :photo_start_id="photo_start_id"
+                 :json_array="json_photos">
 
         </Buttons>
     </div>
@@ -23,6 +25,9 @@
 
     export default {
         name: "Photos",
+        props:{
+            photo_start_id: Number,
+        },
 
         components:{
             Buttons
