@@ -40,7 +40,8 @@
 
       <!--         Альбомы -->
 
-      <Albums v-if="page == 'Albums'">
+      <Albums v-if="page == 'Albums'"
+      @page="page_update">
 
       </Albums>
 
@@ -101,24 +102,9 @@ export default {
     },
 
     methods: {
-
-
-        create_photo(album_id) {
-            this.page = 'Photo';
-            this.photo_start_id = 50 * (album_id - 1);
-            this.photos = [];
-            for (let i = 0; i < 4; i++) {
-                this.photos.push({
-                    id: 0,
-                    title: '',
-                    url: ''
-                });
-
-                this.photos[i].id = this.json_photos[i + 50 * (album_id - 1)].id;
-                this.photos[i].title = this.json_photos[i + 50 * (album_id - 1)].title;
-                this.photos[i].url = this.json_photos[i + 50 * (album_id - 1)].url;
-            }
-        },
+        page_update(page){
+           this.page = page
+        }
     },
 
     mounted() {

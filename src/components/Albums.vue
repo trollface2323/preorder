@@ -60,6 +60,7 @@ export default {
 
         create_photo(album_id){
             this.page = 'Photos';
+            this.$emit("page", this.page)
             this.photo_start_id = 50 * (album_id -1);
             this.photos = [];
             for (let i = 0; i < 4; i++){
