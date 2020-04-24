@@ -27,12 +27,14 @@
 
 <!--      Крошки-->
 
+
       <div class="container">
           <nav aria-label="breadcrumb">
               <ol class="breadcrumb bg-white">
                   <li class="breadcrumb-item"><a href="#">Галерея</a></li>
                   <li class="breadcrumb-item" v-if="page == 'Albums' || page == 'Photo'" @click="page = 'Albums'"><a href="#">Альбомы</a></li>
                   <li class="breadcrumb-item" v-if="page == 'Photo'" aria-current="page">Фото</li>
+<!--                  <router-view/>-->
               </ol>
           </nav>
 
@@ -54,9 +56,9 @@
 
 <!--      Главная-->
 
-      <div class="container" v-if="page == 'Main'">
-          <p> Типа главная страница</p>
-      </div>
+      <MainPage v-if="page == 'Main'">
+
+      </MainPage>
 
 <!--      Новости-->
 
@@ -78,15 +80,26 @@
 </template>
 
 <script>
+
 import Albums from "./components/Albums.vue"
 import Photos from "./components/Photos";
+import MainPage from "@/components/MainPage";
 
 export default {
   name: 'App',
   components: {
+      MainPage,
       Photos,
       Albums
   },
+    // routes: [
+    //     {
+    //         path: '/photos',
+    //         name: 'Photo',
+    //         component: Photos,
+    //     }
+    // ],
+
     data() {
       return {
 
